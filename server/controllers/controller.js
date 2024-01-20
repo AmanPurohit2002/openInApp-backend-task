@@ -1,9 +1,12 @@
+const jwt=require('jsonwebtoken');
 const SubTask = require("../models/SubTask");
 const Task = require("../models/Task");
+
 
 const createTask = async (req, res) => {
   try {
     const { title, description, due_date } = req.body;
+    const user=req.user;
     const newTask=new Task({
         title,
         description,
@@ -11,7 +14,10 @@ const createTask = async (req, res) => {
     })
 
     const saveTask=await newTask.save();
-    res.status(200).json(saveTask);
+
+    const token=jwt.sign({user_id:user.user_id},process.env.JWT_SECRET_KEY);
+
+    res.status(200).json({task:saveTask,token});
   } catch (error) {
     console.error('Error creating task:', error);
     res.status(500).json({ error: 'Internal Server Error' });

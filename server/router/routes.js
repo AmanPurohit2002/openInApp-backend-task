@@ -10,9 +10,10 @@ const {
   deleteSubTask,
 } = require("../controllers/controller");
 const router = express.Router();
+const authMiddleware = require("../middleware/jwt");
 
-router.post("/task", createTask);
-router.post("/sub-task", createSubTask);
+router.post("/task", authMiddleware,createTask);
+router.post("/sub-task", authMiddleware,createSubTask);
 router.get("/task", getUserTask);
 router.get("/sub-task", getUserSubTask);
 router.put("/task", updateTask);
