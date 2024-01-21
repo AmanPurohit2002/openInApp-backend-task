@@ -1,53 +1,43 @@
-const jwt=require('jsonwebtoken');
+const jwt = require("jsonwebtoken");
 const SubTask = require("../models/SubTask");
 const Task = require("../models/Task");
-
 
 const createTask = async (req, res) => {
   try {
     const { title, description, due_date } = req.body;
-    const user=req.user;
-    const newTask=new Task({
-        title,
-        description,
-        due_date
-    })
+    const newTask = await Task.create({
+      title,
+      description,
+      due_date,
+    });
 
-    const saveTask=await newTask.save();
+    const token=jwt.sign({id:newTask._id},process.env.JWT_SECRET_KEY,{expiresIn:"3h"})
 
-    const token=jwt.sign({user_id:user.user_id},process.env.JWT_SECRET_KEY);
-
-    res.status(200).json({task:saveTask,token});
+    res.status(200).json({task:newTask,token});
   } catch (error) {
-    console.error('Error creating task:', error);
-    res.status(500).json({ error: 'Internal Server Error' });
+    console.error("Error creating task:", error);
+    res.status(500).json({ error: "Internal Server Error" });
   }
 };
 const createSubTask = async (req, res) => {
-    try {
-        
-        const {task_id}=req.body;
-        const task=Task.findById(task_id);
+  try {
+    const { task_id } = req.body;
+    const task = Task.findById(task_id);
 
-        if(!task){
-            return res.status(404).json({ error: 'Task not found' });
-        }else{
+    if (!task) {
+      return res.status(404).json({ error: "Task not found" });
+    } else {
+      const newSubTask = new SubTask({
+        task_id,
+      });
+      const saveSubTask = await newSubTask.save();
 
-            const newSubTask=new SubTask({
-                task_id
-            })
-            const saveSubTask=await newSubTask.save();
-        
-            res.status(200).json(saveSubTask);
-        }
-    
-    
-    } catch (error) {
-        console.error('Error creating Sub-task:', error);
-        res.status(500).json({ error: 'Internal Server Error' });
+      res.status(200).json(saveSubTask);
     }
-
-    
+  } catch (error) {
+    console.error("Error creating Sub-task:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
 };
 
 const getUserTask = async (req, res) => {};

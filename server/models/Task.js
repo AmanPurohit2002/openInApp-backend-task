@@ -1,4 +1,5 @@
 const { models, model, Schema } = require("mongoose");
+const jwt=require('jsonwebtoken');
 
 const TaskSchema = new Schema({
   title: { type: String, required: true },
@@ -12,6 +13,8 @@ const TaskSchema = new Schema({
   },
   deleted_at: { type: Date },
 },{timestamps:true});
+
+
 
 const Task = models.Task || model("Task", TaskSchema);
 

@@ -10,15 +10,15 @@ const {
   deleteSubTask,
 } = require("../controllers/controller");
 const router = express.Router();
-const authMiddleware = require("../middleware/jwt");
+const authMiddleware = require("../middleware/authMiddleware");
 
-router.post("/task", authMiddleware,createTask);
+router.post("/task",createTask);
 router.post("/sub-task", authMiddleware,createSubTask);
-router.get("/task", getUserTask);
-router.get("/sub-task", getUserSubTask);
-router.put("/task", updateTask);
-router.put("/sub-task", updateSubTask);
-router.delete("/task", deleteTask);
-router.delete("/sub-task", deleteSubTask);
+router.get("/task", authMiddleware,getUserTask);
+router.get("/sub-task", authMiddleware,getUserSubTask);
+router.put("/task", authMiddleware,updateTask);
+router.put("/sub-task", authMiddleware,updateSubTask);
+router.delete("/task", authMiddleware,deleteTask);
+router.delete("/sub-task", authMiddleware,deleteSubTask);
 
 module.exports = router;
