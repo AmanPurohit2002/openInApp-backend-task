@@ -45,7 +45,7 @@ const createSubTask = async (req, res) => {
 
 const getUserTask = async (req, res) => {
   try {
-    const existingTask=await Task.find().sort({due_date:-1});
+    const existingTask=await Task.find().sort({priority:-1});
   
     res.status(200).json(existingTask);
     
