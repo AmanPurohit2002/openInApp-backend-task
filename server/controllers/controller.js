@@ -28,7 +28,7 @@ const createSubTask = async (req, res) => {
       return res.status(404).json({ error: "Task not found" });
     } else {
       const newSubTask = new SubTask({
-        task_id,
+        task_id:req.userId
       });
       const saveSubTask = await newSubTask.save();
 

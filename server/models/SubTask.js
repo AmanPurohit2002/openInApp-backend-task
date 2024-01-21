@@ -5,7 +5,7 @@ const Task = require("./Task");
 const SubTaskSchema = new Schema(
   {
     task_id: {
-      type: Number,
+      type: mongoose.Schema.Types.ObjectId,
       ref: Task,
       required:true
     },
