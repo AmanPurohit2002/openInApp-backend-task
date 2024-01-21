@@ -87,7 +87,7 @@ cron.schedule('* * * * *', () => {
 
 
 // Cron job for voice calling using Twilio
-cron.schedule('* * * * *', async () => {
+cron.schedule('0 8 * * *', async () => {
   try {
     console.log('Cron job for voice calling is running.');
 
