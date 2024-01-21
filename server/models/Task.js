@@ -2,6 +2,7 @@ const { models, model, Schema } = require("mongoose");
 const jwt=require('jsonwebtoken');
 
 const TaskSchema = new Schema({
+  id:{type:Number,required:true},
   title: { type: String, required: true },
   description: { type: String },
   due_date: { type: Date },

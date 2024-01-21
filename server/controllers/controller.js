@@ -46,11 +46,12 @@ const getUser=async(req,res)=>{
 
 const createTask = async (req, res) => {
   try {
-    const { title, description, due_date } = req.body;
+    const { title, description, due_date,id } = req.body;
     const newTask = await Task.create({
       title,
       description,
       due_date,
+      id
     });
 
     res.status(200).json(newTask);
@@ -103,7 +104,8 @@ const getUserSubTask = async (req, res) => {
 
 const updateTask = async (req, res) => {
   try {
-    const existingTask = await Task.findById(req.userId);
+    const {id}=req.params;
+    const existingTask = await Task.find({id});
 
     const { due_date, status } = req.body;
 
@@ -111,22 +113,23 @@ const updateTask = async (req, res) => {
       return res.status(404).json({ error: "Task not found" });
     }
 
-    const updatedTask = await Task.findByIdAndUpdate(
-      req.userId,
+    const updatedTask = await Task.find(
+      {id},
       {
-        $set: {
+        
           due_date: due_date,
           status: status,
-        },
+        
       },
       { new: true }
     );
 
-    await updatedTask.save();
+
+
 
     res.status(200).json(updatedTask);
   } catch (error) {
-    res.status(500).json({ error: "Internal Server Error" });
+    res.status(500).json({ error: error.message });
   }
 };
 

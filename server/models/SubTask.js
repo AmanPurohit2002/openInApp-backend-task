@@ -7,7 +7,6 @@ const SubTaskSchema = new Schema(
     task_id: {
       type: mongoose.Schema.Types.ObjectId,
       ref: Task,
-      required:true
     },
     status: {
       type: Number,

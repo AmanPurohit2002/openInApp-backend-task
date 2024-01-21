@@ -21,7 +21,7 @@ router.post("/task",authMiddleware,createTask);
 router.post("/sub-task", authMiddleware,createSubTask);
 router.get("/task", authMiddleware,getUserTask);
 router.get("/sub-task", authMiddleware,getUserSubTask);
-router.put("/task", authMiddleware,updateTask);
+router.put("/task/:id", authMiddleware,updateTask);
 router.put("/sub-task", authMiddleware,updateSubTask);
 router.delete("/task", authMiddleware,deleteTask);
 router.delete("/sub-task", authMiddleware,deleteSubTask);
