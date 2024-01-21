@@ -16,6 +16,7 @@ const SubTaskSchema = new Schema(
     },
     deleted_at: {
       type: Date,
+      default:null
     }
   },{timestamps:true}
 );

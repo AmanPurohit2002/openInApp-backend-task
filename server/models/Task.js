@@ -11,7 +11,7 @@ const TaskSchema = new Schema({
     enum: ["TODO", "IN_PROGRESS", "DONE"],
     default: "TODO",
   },
-  deleted_at: { type: Date },
+  deleted_at: { type: Date , default:null},
 },{timestamps:true});
 
 
