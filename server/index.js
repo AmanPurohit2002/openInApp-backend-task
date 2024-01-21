@@ -4,8 +4,8 @@ const routes = require("./router/routes");
 const connectToDb = require("./config/db");
 const app = express();
 const bodyParser=require('body-parser');
-
 require("dotenv").config();
+require('./cronJob/cron-job');
 
 app.use(cors());
 app.use(express.json());

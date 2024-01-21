@@ -45,7 +45,7 @@ const createSubTask = async (req, res) => {
 
 const getUserTask = async (req, res) => {
   try {
-    const existingTask=await Task.find({});
+    const existingTask=await Task.find().sort({due_date:-1});
   
     res.status(200).json(existingTask);
     
@@ -118,7 +118,6 @@ const updateSubTask = async (req, res) => {
 const deleteTask = async (req, res) => {
   try {
     const id = await Task.find({ _id: req.userId });
-    console.log(id);
 
     const delTask = await Task.findByIdAndUpdate(
       id,
