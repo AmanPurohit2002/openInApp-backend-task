@@ -3,6 +3,47 @@ const SubTask = require("../models/SubTask");
 const Task = require("../models/Task");
 const User = require("../models/User");
 
+const createUser = async (req, res) => {
+  try {
+    const { phone_number } = req.body;
+
+    const existingUser=await User.findOne({phone_number});
+
+    if(existingUser){
+      return res.status(400).json({ error: 'User with this phone number already exists' });
+    }
+
+    const newUser = await User.create({
+      phone_number,
+    });
+
+
+
+    const token = jwt.sign(
+      { userid: newUser._id },
+      process.env.JWT_SECRET_KEY,
+      {
+        expiresIn: "3h",
+      }
+    );
+
+    res.status(200).json({ Users: newUser, token });
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+};
+
+const getUser=async(req,res)=>{
+  try {
+    const data=await User.find().sort({priority:1})
+    
+    return res.status(200).json(data);
+  } catch (error) {
+      return res.status(500).json({ error: error.message });
+  }
+
+}
+
 const createTask = async (req, res) => {
   try {
     const { title, description, due_date } = req.body;
@@ -12,13 +53,8 @@ const createTask = async (req, res) => {
       due_date,
     });
 
-    const token = jwt.sign({ id: newTask._id }, process.env.JWT_SECRET_KEY, {
-      expiresIn: "3h",
-    });
-
-    res.status(200).json({ task: newTask, token });
+    res.status(200).json(newTask);
   } catch (error) {
-    console.error("Error creating task:", error);
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
@@ -45,10 +81,9 @@ const createSubTask = async (req, res) => {
 
 const getUserTask = async (req, res) => {
   try {
-    const existingTask=await Task.find().sort({priority:-1});
-  
+    const existingTask = await Task.find().sort({ priority: 1, due_date: -1 });
+
     res.status(200).json(existingTask);
-    
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -156,6 +191,8 @@ const deleteSubTask = async (req, res) => {
 };
 
 module.exports = {
+  createUser,
+  getUser,
   createTask,
   createSubTask,
   getUserTask,

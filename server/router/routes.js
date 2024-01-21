@@ -8,11 +8,16 @@ const {
   updateSubTask,
   deleteTask,
   deleteSubTask,
+  createUser,
+  getUser,
 } = require("../controllers/controller");
 const router = express.Router();
 const authMiddleware = require("../middleware/authMiddleware");
 
-router.post("/task",createTask);
+
+router.post('/user',createUser)
+router.get('/user',getUser)
+router.post("/task",authMiddleware,createTask);
 router.post("/sub-task", authMiddleware,createSubTask);
 router.get("/task", authMiddleware,getUserTask);
 router.get("/sub-task", authMiddleware,getUserSubTask);
