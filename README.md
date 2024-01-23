@@ -22,8 +22,8 @@ Before you begin, ensure you have the following installed:
 1. Clone the repository:
 
     ```bash
-    git clone https://github.com/yourusername/task-manager-api.git
-    cd task-manager-api
+    git clone https://github.com/AmanPurohit2002/openInApp-backend-task.git
+    cd server
     ```
 
 2. Install dependencies:
@@ -37,7 +37,7 @@ Before you begin, ensure you have the following installed:
 4. Run the server:
 
     ```bash
-    npm start
+    npm run dev
     ```
 
 ## Usage
